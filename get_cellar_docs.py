@@ -29,14 +29,14 @@ def check_ids_to_download(id_list, dir_to_check):
 
     # Get CELLAR ids in the subdirectories containing the files already downloaded
     downloaded_files_list = get_subdir_list_from_path(dir_to_check)
-    # print('ALREADY_DOWNLOADED:', len(downloaded_files_list))
+    print('ALREADY_DOWNLOADED:', len(downloaded_files_list))
     in_dir_name = 'id_logs/in_dir_lists/'
     os.makedirs(os.path.dirname(in_dir_name), exist_ok=True)
     print_list_to_file(in_dir_name + 'in_dir_' + timestamp + '.txt', downloaded_files_list)
 
     # Get list of files that have not yet been downloaded
     missing_ids_list = list(set(id_list) - set(downloaded_files_list))
-    #print('SET_DIFF:', len(missing_ids_list))
+    print('SET_DIFF:', len(missing_ids_list))
     new_ids_dir_name = 'id_logs/cellar_ids/'
     os.makedirs(os.path.dirname(new_ids_dir_name), exist_ok=True)
     print_list_to_file(new_ids_dir_name + 'cellar_ids_' + timestamp + '.txt', missing_ids_list)
@@ -160,8 +160,8 @@ def process_range(sub_list, folder_path):
 timestamp = str(datetime.now().strftime("%Y%m%d-%H%M%S"))
 
 # Get SPARQL query from given file
-sparql_query = text_to_str('queries/sparql_queries/financial_domain_sparql_2019-01-07.rq')
-# print('SPARQL_PATH:', sparql_query)
+sparql_query = text_to_str('queries/sparql_queries/judgements.rq')
+print('SPARQL_PATH:', sparql_query)
 
 # Get CELLAR information from EU SPARQL endpoint (in JSON format)
 sparql_query_results = get_cellar_info_from_endpoint(sparql_query)
@@ -174,7 +174,7 @@ to_json_output_file(sparql_query_results_file, sparql_query_results)
 
 # Create a list of ids from the SPARQL query results (in JSON format)
 id_list = sorted(get_cellar_ids_from_json_results(sparql_query_results))
-# print('ID_LIST:', len(id_list), id_list[:10])
+print('ID_LIST:', len(id_list), id_list[:10])
 
 # # ALTERNATIVELY
 # # If you already have a CSV file with cellar ids,
@@ -192,8 +192,8 @@ cellar_ids_to_file(id_list, timestamp)
 
 
 # Create a list of not-yet-downloaded file ids by comparing the results in id_list with files present in the given directory
-# dir_to_check = None
-dir_to_check = "data/cellar_files_20201214-165041/"
+dir_to_check = None
+#dir_to_check = "data/cellar_files_20201214-165041/"
 # dir_to_check = "dir_with_previously_downloaded_files/"
 if dir_to_check and os.path.exists(dir_to_check):
     id_list = check_ids_to_download(id_list, dir_to_check)
@@ -224,5 +224,5 @@ for i in range(nthreads):  # Four times...
 # To process only new files, set replace_existing to False (default).
 # Usage: get_text(input_path, output_dir, replace_existing=False)
 txt_folder_path = "data/text_files_" + dwnld_folder_path.split('_')[-1]
-# print('TXT_DIR_PATH:', txt_folder_path)
+print('TXT_DIR_PATH:', txt_folder_path)
 get_text(dwnld_folder_path, txt_folder_path, replace_existing=False)

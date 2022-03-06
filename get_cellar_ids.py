@@ -40,7 +40,7 @@ def get_cellar_info_from_endpoint(sparql_query):
     sparql.setReturnFormat(JSON)
 
     results = sparql.query().convert()
-    # print('RESULTS:', results)
+    print('RESULTS:', results)
 
     return results
 
@@ -62,7 +62,7 @@ def get_cellar_ids_from_csv_file(file_path):
     # Get CELLAR ids
     url_list = df.loc[ : , 'cellarURIs' ]
     csv_id_list = [url.split('/')[-1] for url in url_list]
-    # print('CSV_ID_LIST:', csv_id_list, len(csv_id_list))
+    print('CSV_ID_LIST:', csv_id_list, len(csv_id_list))
 
     return csv_id_list
 
@@ -87,7 +87,7 @@ def query_results_to_json(query_results):
     :return: None
     """
     # Usage: to_json_output_file(file_name, data)
-    to_json_output_file('sparql_query_results/query_results_'+timestamp+'.json', query_results)
+    to_json_output_file('queries/sparql_query_results/query_results_'+timestamp+'.json', query_results)
 
 
 def cellar_ids_to_file(id_list, timestamp):
@@ -106,11 +106,11 @@ if __name__ == '__main__':
     timestamp = str(datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     # Get SPARQL query from given file
-    sparql_query = text_to_str('sparql_queries/financial_domain_sparql_2019-01-07.rq')
+    sparql_query = text_to_str('queries/sparql_queries/judgements.rq')
 
     # Get CELLAR information records from EU Sparql endpoint
     sparql_query_results = get_cellar_info_from_endpoint(sparql_query)
-    # print('RETURNED:', sparql_query_results)
+    print('RETURNED:', sparql_query_results)
 
     # Output SPARQL query results to json file
     # Usage: query_results_to_json(data)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
 
     # Create a list of ids from the SPARQL query results (in JSON format)
     id_list = get_cellar_ids_from_json_results(sparql_query_results)
-    # print('ID LIST:', len(id_list), id_list)
+    print('ID LIST:', len(id_list), id_list)
 
 
     # # ALTERNATIVELY
