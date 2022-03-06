@@ -51,7 +51,7 @@ graph ?lgc { ?lg dc:identifier ?langIdentifier .}
 }
  { SELECT DISTINCT ?work WHERE { 
     ?work rdf:type ?resType .
-    VALUES (?resType) {(cdm:judgement) }
+    VALUES (?resType) {(cdm:communication_cjeu) }
     ?work cdm:work_date_document ?date .
     ?work cdm:work_id_document ?workId_.
 } 
