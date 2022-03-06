@@ -29,7 +29,7 @@ def get_file_list_from_path(path, name='', extension='.txt'):
             if file.startswith(name) and file.endswith(extension):
                 filename = os.path.join(dirpath, file)
                 file_list.append(filename)
-    # print(file_list)
+    print(file_list)
     return file_list
 
 
@@ -43,7 +43,7 @@ def get_subdir_list_from_path(dirpath):
     :return: list
     """
     subdir_list = [f.path.split('/')[-1] for f in os.scandir(dirpath) if f.is_dir()]
-    # print('SUBDIR_LIST:', len(subdir_list), subdir_list[:10])
+    print('SUBDIR_LIST:', len(subdir_list), subdir_list[:10])
     return subdir_list
 
 
@@ -114,7 +114,7 @@ def get_random_sample_dict(text_lines_list, k):
     random_sample = defaultdict()
     for line in rand_lines:
         line_index = text_lines_list.index(line)
-        # print(line_index, ':', line.strip())
+        print(line_index, ':', line.strip())
         random_sample[line_index] = line.strip()
 
     return random_sample
@@ -131,7 +131,7 @@ def get_random_sample_list(text_lines_list, k):
     :return: list of str
     """
     assert k < len(text_lines_list), "The input text is too short."
-    # print('RAND_SAMPL:', len(random_sample), random_sample[:10])
+    print('RAND_SAMPL:', len(random_sample), random_sample[:10])
     return random.sample(text_lines_list, k)
 
 
@@ -230,8 +230,8 @@ def to_json_output_file(file_name, data):
         # print('JSON_DUMPS:', json.dumps(data))
         json.dump(data, outfile, indent=4)
 
-
-def print_list_to_file(outfile_name, list):
+# kind of a dumb idea to name your list "list", even if it is allowed.
+def print_list_to_file(outfile_name, element_list):
     """
     Create a file with the given outfile_name
     and print each element in the given list
@@ -239,14 +239,19 @@ def print_list_to_file(outfile_name, list):
     Last line not followed by newline.
 
     :param outfile_name: str
-    :param list: list
+    :param element_list: list
     :return: None
     """
-    with open(outfile_name, 'w') as outfile:
-        for elt in list[:-1]:
-            outfile.write('{name}{newline}'.format(name=elt, newline='\n'))
-            # outfile.write("%s\n" % file_name)
+    print(element_list)
+    if element_list != []:
+        with open(outfile_name, 'w') as outfile:
+            for elt in element_list[:-1]:
+                outfile.write('{name}{newline}'.format(name=elt, newline='\n'))
 
-        # Last line not followed by newline
-        for file_name in list[-1]:
-            outfile.write(file_name)
+            # Last line not followed by newline
+            for file_name in element_list[-1]:
+                outfile.write(file_name)
+    else:
+        # add exception
+        print("Sorry, empty list")
+        exit()
